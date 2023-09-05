@@ -1,92 +1,110 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
-		store: {
-			tarjetas: [],
-			nuevatarjeta: [],
-			// demo: [
-			// 	{
-			// 		title: "FIRST",
-			// 		background: "white",
-			// 		initial: "white"
-			// 	},
-			// 	{
-			// 		title: "SECOND",
-			// 		background: "white",
-			// 		initial: "white"
-			// 	}
-			// ]
+	  store: {
+		contacts: []
+	  },
+	  actions: {
+		loadContacts: async () => {
+		  try {
+			let response = await fetch(
+			  "https://playground.4geeks.com/apis/fake/contact/agenda/rvargas"
+			);
+			let data = await response.json();
+			setStore({
+			  contacts: data
+			});
+		  } catch (error) {
+			console.log(error);
+		  }
 		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			cargarData: async () => {
-
-				try {
-					let resp = await fetch("https://playground.4geeks.com/apis/fake/contact/agenda/rvargas")
-					let data = await resp.json()
-
-					setStore({ tarjetas: data })
-					setStore({ nuevatarjeta: data })
-
-				} catch (err) {
-					console.log(err)
-				}
-
-			},
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-			},
-
-			newContact: async (currentContact) => {
-
-				const store = getStore()
-				try {
-					let respuesta = await fetch("https://playground.4geeks.com/apis/fake/todos/user/rvargas", {
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(data)
-
-					});
-					setStore({ nuevatarjeta: [...store.nuevatarjeta, currentContact] })
-				} catch (error) {
-					console.log(error);
-				}
-			},
-
-			editContact: (currentContact) => {
-
-				const store = getStore()
-
-				let searchContact = store.contacts.find(person => currentContact.id == person.id)
-
-				if (searchContact) {
-					searchContact.full_name = currentContact.full_name
-					searchContact.email = currentContact.email
-					searchContact.address = currentContact.address
-					searchContact.phone = currentContact.phone
-				}
-
-				//reset the global store
-				setStore({ demo: demo });
+		addContact: async currentContact => {
+		  try {
+			let response = await fetch(
+			  "https://playground.4geeks.com/apis/fake/contact/",
+			  {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+				  full_name: currentContact.full_name,
+				  email: currentContact.email,
+				  agenda_slug: "rvargas",
+				  address: currentContact.address,
+				  phone: currentContact.phone
+				})
+			  }
+			);
+			if (response.ok) {
+			  let data = await response.json();
+			  console.log(data);
+			  getActions().loadContacts();
 			}
+		  } catch (error) {
+			console.log(error);
+		  }
 		},
-
-	}
-}
-
-export default getState;
+		editContact: async currentContact => {
+		  try {
+			let response = await fetch(
+			  `https://playground.4geeks.com/apis/fake/contact/${currentContact.id}`,
+			  {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+				  full_name: currentContact.full_name,
+				  email: currentContact.email,
+				  agenda_slug: "rolando",
+				  address: currentContact.address,
+				  phone: currentContact.phone
+				})
+			  }
+			);
+			if (response.ok) {
+			  let data = await response.json();
+			  console.log(data);
+			  getActions().loadContacts();
+			}
+		  } catch (error) {
+			console.log(error);
+		  }
+		},
+		deleteContact: async currentContactId => {
+		  try {
+			let response = await fetch(
+			  `https://playground.4geeks.com/apis/fake/contact/${currentContactId}`,
+			  {
+				method: "DELETE"
+			  }
+			);
+			if (response.ok) {
+			  let data = await response.json();
+			  console.log(data);
+			  getActions().loadContacts();
+			}
+		  } catch (error) {
+			console.log(error);
+		  }
+		},
+		formatData: data => {
+		  return data
+			.sort((a, b) => {
+			  return a.full_name.localeCompare(b.full_name);
+			})
+			.map(contact => {
+			  const firstNameLetter = contact.full_name.charAt(0).toUpperCase();
+			  const restOfName = contact.full_name.slice(1).toLowerCase();
+			  const firstAddressLetter = contact.address.charAt(0).toUpperCase();
+			  const restOfAddress = contact.address.slice(1).toLowerCase();
+			  const email = contact.email.toLowerCase();
+			  return {
+				...contact,
+				full_name: firstNameLetter + restOfName,
+				address: firstAddressLetter + restOfAddress,
+				email: email
+			  };
+			});
+		}
+	  }
+	};
+  };
+  
+  export default getState;

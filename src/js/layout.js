@@ -1,15 +1,14 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
-import { Demo } from "./views/demo";
 import { Home } from "./views/home";
-import { Single } from "./views/single";
+import { NewContact } from "./views/newContact";
+import { SpecificContact } from "./views/specificContact";
+import { EditContact } from "./views/editContact.js";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
-import { AgregarCard } from "./views/agregocard";
 
 //create your first component
 const Layout = () => {
@@ -24,12 +23,17 @@ const Layout = () => {
 					<Navbar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
-						<Route path="*" element={<h1>Not found!</h1>} />
-						<Route path="/agregocard" element={<AgregarCard />} />
+						<Route path="/navbar" element={<Navbar />} />
+						<Route path="/scrollToTop" element={<ScrollToTop />} />
+						<Route path="/contacts" element={<Navigate to="/" />} />
+						<Route path="/new-contact" element={<NewContact />} />
+						<Route path="/edit-contact/:id" element={<EditContact />} />
+						<Route path="/contacts/:id" element={<SpecificContact />} />
+						<Route
+							path="*"
+							element={<h1 className="text-center h1 fw-bold">Not found!</h1>}
+						/>
 					</Routes>
-					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

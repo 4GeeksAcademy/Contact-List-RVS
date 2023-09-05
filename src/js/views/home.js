@@ -1,36 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../styles/home.css";
-import { useState, useEffect, useContext } from "react";
-import { Context } from "./../store/appContext.js";
-import { Link } from "react-router-dom";
-import logoRvs from "../../img/logorvs.png";
-
+import { Contact } from "../component/Contact";
+import { Context } from "../store/appContext";
 
 export const Home = () => {
+	const { store, actions } = useContext(Context);
+	const contacts = store.contacts;
 
-	const { actions, store } = useContext(Context);
+	if (contacts.length === 0)
+		return <h2 className="h2 text-center">No Contacts</h2>;
 
 	return (
-		<>	<div className="d-flex flex-column justify-content-center">
-
-			<div className="">
-				<div className="mt-2 text-center ">
-					<h1>LISTA DE CONTACTOS</h1>
-				</div>
-				{
-					store.tarjetas.length == 0 && <span> Loading ...</span>
-				}
-				{
-					store.tarjetas.length != 0 &&
-					store.tarjetas.map(item => <CardDraw key={item.id} item={item} />)
-				}
-
+		<>
+			<div className="container">
+				{actions.formatData(contacts).map((contact, index) => (
+					<Contact
+						full_name={contact.full_name}
+						address={contact.address}
+						phone={contact.phone}
+						email={contact.email}
+						id={contact.id}
+						key={index + 1}
+					/>
+				))}
 			</div>
-		</div>
+			<div style={{ height: "20px" }}></div>
 		</>
-
 	);
-}
+};
 
 export const CardDraw = ({ item }) => {
 
