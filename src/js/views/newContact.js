@@ -14,7 +14,7 @@ export const NewContact = () => {
 
   return (
     <div className="container">
-      <h1 className="h1 text-center">Add a new contact</h1>
+      <h1 className="h1 text-center">Agregar Nuevo Contacto</h1>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -23,7 +23,7 @@ export const NewContact = () => {
         }}>
         <div className="my-3">
           <label htmlFor="full_name" className="form-label">
-            Full Name
+            Nombre
           </label>
           <input
             className="w-100"
@@ -59,7 +59,7 @@ export const NewContact = () => {
 
         <div className="my-3">
           <label htmlFor="phone" className="form-label">
-            Phone
+            Teléfono
           </label>
           <input
             className="w-100"
@@ -76,7 +76,7 @@ export const NewContact = () => {
 
         <div className="my-3">
           <label htmlFor="address" className="form-label">
-            Address
+            Dirección
           </label>
           <input
             className="w-100"
@@ -90,9 +90,9 @@ export const NewContact = () => {
           />
         </div>
 
-        <button className="btn btn-primary w-100 fw-bold">Save</button>
+        <button className="btn btn-primary w-100 fw-bold">Guardar</button>
       </form>
-      <Link to="/">Or get back to contacts</Link>
+      <Link to="/">Atrás</Link>
     </div>
   );
 };

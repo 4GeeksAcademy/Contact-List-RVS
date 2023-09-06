@@ -6,7 +6,7 @@ export const ProfilePicture = ({ full_name, img }) => {
     <div
       className="rounded-top p-3"
       style={{ background: "rgb(197, 198, 198)" }}>
-      <Link to="/">&larr;Back to Contacts</Link>
+      <Link to="/">Back</Link>
       <div className="mx-auto col-md-3 col-6 ">
         <img
           src={img}

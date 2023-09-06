@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import logorvs from "../../img/logorvs.png"
 
 export const Contact = ({ full_name, address, phone, email, id }) => {
     const { actions } = useContext(Context);
@@ -10,11 +11,12 @@ export const Contact = ({ full_name, address, phone, email, id }) => {
             <div className="contact__image ms-2 col-md-3 col-4 p-0">
                 <Link to={`/contacts/${id}`}>
                     <img
-                        src="https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+                        src={logorvs}
                         className="rounded-circle m-auto border border-1"
                         style={{
                             width: "100%",
-                            aspectRatio: "1:1"
+                            aspectRatio: "1:1",
+                            objectFit: "contains"
                         }}
                     />
                 </Link>
@@ -59,7 +61,7 @@ export const Contact = ({ full_name, address, phone, email, id }) => {
                     <i className="fa-solid fa-trash-can fs-4 delete mx-auto"></i>
                 </button>
                 <Link to={`/contacts/${id}`} className="ms-auto">
-                    See Contact
+                    Ver el Contacto
                 </Link>
             </div>
             <div
